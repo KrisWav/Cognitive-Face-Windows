@@ -1,0 +1,13 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+configuration: Release
+before_build:
+- cmd: >-
+    git submodule update --init --recursive
+
+    dotnet restore ClientLibrary\Microsoft.ProjectOxford.Face.sln
+build:
+  project: ClientLibrary\Microsoft.ProjectOxford.Face.sln
+  verbosity: minimal
+artifacts:
+- path: ClientLibrary\bin\Release\*.nupkg
