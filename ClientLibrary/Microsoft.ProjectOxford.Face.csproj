@@ -15,6 +15,7 @@
     <PackageTags>Face Oxford ProjectOxford Microsoft Cognitive CognitiveServices</PackageTags>
     <Description>Microsoft Cognitive Services Face API Client Library (with Torutek modifications)</Description>
     <Copyright>Copyright (c) 2016</Copyright>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\Cognitive-Common-Windows\ClientLibrary\Contract\EmotionScores.cs" Link="Contract\EmotionScores.cs" />
