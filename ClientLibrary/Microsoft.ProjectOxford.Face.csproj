@@ -1,6 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard1.1</TargetFramework>
+    <PackageId>Torutek.Microsoft.ProjectOxford.Face</PackageId>
+    <Authors>Microsoft, Torutek</Authors>
+    <Company>Torutek</Company>
+    <Product>Microsoft Cognitive Services Face API Client Library (with Torutek modifications)</Product>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseUrl>https://github.com/Microsoft/Cognitive-Face-Windows/blob/master/LICENSE.md</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/torutek/Cognitive-Face-Windows</PackageProjectUrl>
+    <PackageIconUrl>https://portalstoragewuprod.azureedge.net/media/Default/Media/FaceAPI/Icons_Vision_Face.svg</PackageIconUrl>
+    <RepositoryUrl>https://github.com/torutek/Cognitive-Face-Windows</RepositoryUrl>
+    <RepositoryType />
+    <PackageReleaseNotes>Targets .net standard</PackageReleaseNotes>
+    <PackageTags>Face Oxford ProjectOxford Microsoft Cognitive CognitiveServices</PackageTags>
+    <Description>Microsoft Cognitive Services Face API Client Library (with Torutek modifications)</Description>
+    <Copyright>Copyright (c) 2016</Copyright>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\Cognitive-Common-Windows\ClientLibrary\Contract\EmotionScores.cs" Link="Contract\EmotionScores.cs" />
