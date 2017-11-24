@@ -995,32 +995,22 @@ namespace Microsoft.ProjectOxford.Face
             }
             else
             {
+                //Try throw an exception with details
                 if (response.Content != null && response.Content.Headers.ContentType.MediaType.Contains(JsonContentTypeHeader))
                 {
                     var errorObjectString = await response.Content.ReadAsStringAsync();
                     ClientError ex = JsonConvert.DeserializeObject<ClientError>(errorObjectString);
-                    if (ex.Error != null)
-                    {
+                    if (ex?.Error != null)
                         throw new FaceAPIException(ex.Error.ErrorCode, ex.Error.Message, response.StatusCode);
-                    }
-                    else
-                    {
-                        ServiceError serviceEx = JsonConvert.DeserializeObject<ServiceError>(errorObjectString);
-                        if (ex != null)
-                        {
-                            throw new FaceAPIException(serviceEx.ErrorCode, serviceEx.Message, response.StatusCode);
-                        }
-                        else
-                        {
-                            throw new FaceAPIException("Unknown", "Unknown Error", response.StatusCode);
-                        }
-                    }
+
+                    ServiceError serviceEx = JsonConvert.DeserializeObject<ServiceError>(errorObjectString);
+                    if (serviceEx?.ErrorCode != null)
+                        throw new FaceAPIException(serviceEx.ErrorCode, serviceEx.Message, response.StatusCode);
                 }
 
-                response.EnsureSuccessStatusCode();
+                //Fallback to a generic one
+                throw new FaceAPIException("Unknown", "Unknown Error", response.StatusCode);
             }
-
-            return default(TResponse);
         }
 
         #endregion Methods
