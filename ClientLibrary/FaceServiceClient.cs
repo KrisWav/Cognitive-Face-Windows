@@ -36,7 +36,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -210,16 +209,6 @@ namespace Microsoft.ProjectOxford.Face
             }
         }
 
-        /// <summary>
-        /// The maximum amount of times we will retry an API call if it fails with a transient error
-        /// </summary>
-        public int RetryAmount { get; set; } = 5;
-
-        /// <summary>
-        /// The delay between each retry attempt when a transient error occurs
-        /// </summary>
-        public readonly TimeSpan RetryDelay = TimeSpan.FromSeconds(1);
-
         #endregion Properties
 
         #region Methods
@@ -374,7 +363,7 @@ namespace Microsoft.ProjectOxford.Face
         {
             var requestUrl = string.Format("{0}/{1}", ServiceHost, IdentifyQuery);
 
-            return await this.SendRequestAsyncWithRetry<object, IdentifyResult[]>(
+            return await this.SendRequestAsync<object, IdentifyResult[]>(
                 HttpMethod.Post,
                 requestUrl,
                 new
@@ -962,7 +951,7 @@ namespace Microsoft.ProjectOxford.Face
         }
 
         /// <summary>
-        /// Sends the request asynchronously. Retries if an HttpStatus 409 failure is encountered
+        /// Sends the request asynchronous.
         /// </summary>
         /// <typeparam name="TRequest">The type of the request.</typeparam>
         /// <typeparam name="TResponse">The type of the response.</typeparam>
@@ -970,37 +959,7 @@ namespace Microsoft.ProjectOxford.Face
         /// <param name="requestUrl">The request URL.</param>
         /// <param name="requestBody">The request body.</param>
         /// <returns>The response.</returns>
-        /// <exception cref="FaceAPIException">The client exception.</exception>
-        private async Task<TResponse> SendRequestAsyncWithRetry<TRequest, TResponse>(HttpMethod httpMethod, string requestUrl, TRequest requestBody)
-        {
-            for (var attempt = 0; attempt < RetryAmount; attempt++)
-            {
-                try
-                {
-                    return await SendRequestAsync<TRequest, TResponse>(httpMethod, requestUrl, requestBody);
-                }
-                //We handle a 409 (Conflict) as returned when training is in progress (and other similar events)
-                //TODO: We could handle a 429 (Rate limit exceeded), that would require more thought however
-                catch (FaceAPIException ex) when (ex.HttpStatus == HttpStatusCode.Conflict && attempt < RetryAmount - 1)
-                {
-                    //Ignore, we will try again
-                    await Task.Delay(RetryDelay);
-                }
-            }
-
-            throw new Exception("SendRequestAsyncWithRetry failed without throwing an exception");
-        }
-
-        /// <summary>
-        /// Sends the request asynchronously.
-        /// </summary>
-        /// <typeparam name="TRequest">The type of the request.</typeparam>
-        /// <typeparam name="TResponse">The type of the response.</typeparam>
-        /// <param name="httpMethod">The HTTP method.</param>
-        /// <param name="requestUrl">The request URL.</param>
-        /// <param name="requestBody">The request body.</param>
-        /// <returns>The response.</returns>
-        /// <exception cref="FaceAPIException">The client exception.</exception>
+        /// <exception cref="OxfordAPIException">The client exception.</exception>
         private async Task<TResponse> SendRequestAsync<TRequest, TResponse>(HttpMethod httpMethod, string requestUrl, TRequest requestBody)
         {
             var request = new HttpRequestMessage(httpMethod, ServiceHost);
