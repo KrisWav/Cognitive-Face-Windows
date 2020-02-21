@@ -104,7 +104,7 @@ namespace Microsoft.ProjectOxford.Face.Contract
         /// <value>
         /// The emotion.
         /// </value>
-        public Microsoft.ProjectOxford.Common.Contract.EmotionScores Emotion
+        public EmotionScores Emotion
         {
             get; set;
         }

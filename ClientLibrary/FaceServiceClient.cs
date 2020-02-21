@@ -235,7 +235,7 @@ namespace Microsoft.ProjectOxford.Face
         /// <param name="returnFaceLandmarks">If set to <c>true</c> [return face landmarks].</param>
         /// <param name="returnFaceAttributes">Face attributes need to be returned.</param> 
         /// <returns>The detected faces.</returns>
-        public async Task<Microsoft.ProjectOxford.Face.Contract.Face[]> DetectAsync(string imageUrl, bool returnFaceId = true, bool returnFaceLandmarks = false, IEnumerable<FaceAttributeType> returnFaceAttributes = null)
+        public async Task<Microsoft.ProjectOxford.Face.Contract.Face[]> DetectAsync(string imageUrl, bool returnFaceId = true, bool returnFaceLandmarks = false, IEnumerable<FaceAttributeType> returnFaceAttributes = null, string recognitionModel = "recognition_01", bool returnRecognitionModel = false, string detectionModel = "detection_01")
         {
             if (returnFaceAttributes != null)
             {
@@ -252,11 +252,14 @@ namespace Microsoft.ProjectOxford.Face
             else
             {
                 var requestUrl = string.Format(
-                    "{0}/{1}?returnFaceId={2}&returnFaceLandmarks={3}",
+                    "{0}/{1}?returnFaceId={2}&returnFaceLandmarks={3}&recognitionModel={4}&returnRecognitionModel={5}&detectionModel={6}",
                     ServiceHost,
                     DetectQuery,
                     returnFaceId,
-                    returnFaceLandmarks);
+                    returnFaceLandmarks,
+                    recognitionModel,
+                    returnRecognitionModel,
+                    detectionModel);
 
                 return await this.SendRequestAsync<object, Microsoft.ProjectOxford.Face.Contract.Face[]>(HttpMethod.Post, requestUrl, new { url = imageUrl });
             }
@@ -270,7 +273,7 @@ namespace Microsoft.ProjectOxford.Face
         /// <param name="returnFaceLandmarks">If set to <c>true</c> [return face landmarks].</param>
         /// <param name="returnFaceAttributes">Face attributes need to be returned.</param> 
         /// <returns>The detected faces.</returns>
-        public async Task<Microsoft.ProjectOxford.Face.Contract.Face[]> DetectAsync(Stream imageStream, bool returnFaceId = true, bool returnFaceLandmarks = false, IEnumerable<FaceAttributeType> returnFaceAttributes = null)
+        public async Task<Microsoft.ProjectOxford.Face.Contract.Face[]> DetectAsync(Stream imageStream, bool returnFaceId = true, bool returnFaceLandmarks = false, IEnumerable<FaceAttributeType> returnFaceAttributes = null, string recognitionModel = "recognition_01", bool returnRecognitionModel = false, string detectionModel = "detection_01")
         {
             if (returnFaceAttributes != null)
             {
@@ -287,11 +290,14 @@ namespace Microsoft.ProjectOxford.Face
             else
             {
                 var requestUrl = string.Format(
-                    "{0}/{1}?returnFaceId={2}&returnFaceLandmarks={3}",
+                    "{0}/{1}?returnFaceId={2}&returnFaceLandmarks={3}&recognitionModel={4}&returnRecognitionModel={5}&detectionModel={6}",
                     ServiceHost,
                     DetectQuery,
                     returnFaceId,
-                    returnFaceLandmarks);
+                    returnFaceLandmarks,
+                    recognitionModel,
+                    returnRecognitionModel,
+                    detectionModel);
 
                 return await this.SendRequestAsync<Stream, Microsoft.ProjectOxford.Face.Contract.Face[]>(HttpMethod.Post, requestUrl, imageStream);
             }

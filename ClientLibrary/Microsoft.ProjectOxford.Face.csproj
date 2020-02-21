@@ -19,9 +19,6 @@
     <Version>1.2.0</Version>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\Cognitive-Common-Windows\ClientLibrary\Contract\EmotionScores.cs" Link="Contract\EmotionScores.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
   </ItemGroup>
 </Project>
